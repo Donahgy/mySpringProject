@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'org.springframework'
+version '5.2.12.RELEASE'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    compile(project(":spring-context"))
+    compile(project(":spring-aspects"))
+    implementation 'mysql:mysql-connector-java:8.0.27'
+    implementation 'com.alibaba:druid:1.2.8'
+    compile(project(":spring-jdbc"))
+    compile(project(":spring-aop"))
+}
+
+test {
+    useJUnitPlatform()
+}
