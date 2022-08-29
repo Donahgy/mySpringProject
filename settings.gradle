@@ -38,4 +38,5 @@ rootProject.children.each {project ->
 }
 include 'test-spring'
 include 'test-spring-bean'
+include 'spring-mybatis-pandong'
 

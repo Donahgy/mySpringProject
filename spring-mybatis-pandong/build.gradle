@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'org.springframework'
+version '5.2.12.RELEASE'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('mysql:mysql-connector-java:8.0.30')
+    compile('com.alibaba:druid:1.2.11')
+    compile('org.projectlombok:lombok:1.18.24')
+    compile('com.github.pagehelper:pagehelper:5.3.0')
+    compile(project(":spring-context"))
+    compile(project(":spring-jdbc"))
+    compile('ch.qos.logback:logback-core:1.2.11')
+    compile('ch.qos.logback:logback-classic:1.2.11')
+    compile('org.slf4j:slf4j-api:1.7.36')
+    compile(project(":spring-aop"))
+    compile('org.mybatis.caches:mybatis-ehcache:1.2.2')
+    compile('net.sf.ehcache:ehcache-core:2.6.11')
+    compile fileTree(dir: '/src/lib',includes: ['*.jar'])
+}
+
+test {
+    useJUnitPlatform()
+}
