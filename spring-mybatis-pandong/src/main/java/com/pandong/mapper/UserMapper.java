@@ -1,8 +1,9 @@
 package com.pandong.mapper;
 
+import com.pandong.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface UserMapper {
-	public boolean selectById(long l);
+	User selectById(long l);
 }

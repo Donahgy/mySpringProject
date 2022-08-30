@@ -1937,6 +1937,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @see ChildBeanDefinition
 	 * @see org.springframework.beans.factory.config.ConfigurableListableBeanFactory#getBeanDefinition
 	 */
+	/**
+	 * 根据beanName从beanDefinitionMap中获取对应的beanDefinition
+	 */
 	protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
 	/**
