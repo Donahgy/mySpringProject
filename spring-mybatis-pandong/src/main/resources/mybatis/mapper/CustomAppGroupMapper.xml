@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pandong.mapper.CustomAppGroupMapper">
+    <!-- 结果映射关系 -->
+
+    <select id="selectCountWithUserType" resultType="java.lang.Integer">
+        select count(*)
+        from t_custom_process_user
+        where 1=1 and isRemoved = 0
+        <if test="param1.createUserSid !=null and param1.createUserSid != ''">
+            and createUserSid = #{param1.createUserSid}
+        </if>
+        <if test="param1.templateName !=null and param1.templateName != ''">
+            and templateName like concat('%',#{param1.templateName},'%')
+        </if>
+        <if test="param2 != null">
+            and userType in
+            <foreach collection="param2" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="param3 != null">
+			and id in
+			<foreach collection="param3" index="index" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+    </select>
+
+    <select id="selectListWithUserType" parameterType="map" resultType="map">
+        select *
+        from t_custom_process_user
+        where 1=1 and isRemoved = 0
+        <if test="param1.createUserSid !=null and param1.createUserSid != ''">
+            and createUserSid = #{param1.createUserSid}
+        </if>
+        <if test="param1.templateName !=null and param1.templateName != ''">
+            and templateName like concat('%',#{param1.templateName},'%')
+        </if>
+        <if test="param2 != null">
+            and userType in
+            <foreach collection="param2" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        order by modifyTime desc<!-- 添加策略倒叙排列 -->
+		limit
+		<choose>
+			<when test="param1.page!=null and param1.page!=''">#{param1.page}</when>
+			<otherwise>0</otherwise>
+		</choose>
+		,
+		<choose>
+			<when test="param1.rows!=null and param1.rows!=''">#{param1.rows}</when>
+			<otherwise>10</otherwise>
+		</choose>
+    </select>
+
+	<select id="selectProcessUserIdByName" parameterType="map" resultType="string">
+		select distinct(processUserId) from t_custom_process_user_detail
+		where 1=1
+		<if test="templateContent != null">
+			and userValue like concat ('%',#{templateContent},'%')
+		</if>
+	</select>
+</mapper>
