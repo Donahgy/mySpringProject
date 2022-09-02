@@ -189,7 +189,7 @@ class ConfigurationClassParser {
 						"Failed to parse configuration class [" + bd.getBeanClassName() + "]", ex);
 			}
 		}
-
+		// springboot自动装配的类会在此处进行扫描并注册成beanDefinition
 		this.deferredImportSelectorHandler.process();
 	}
 
@@ -781,7 +781,9 @@ class ConfigurationClassParser {
 				if (deferredImports != null) {
 					DeferredImportSelectorGroupingHandler handler = new DeferredImportSelectorGroupingHandler();
 					deferredImports.sort(DEFERRED_IMPORT_COMPARATOR);
+					// 注册对应的组
 					deferredImports.forEach(handler::register);
+					// 处理对应组下扫描的包
 					handler.processGroupImports();
 				}
 			}
@@ -800,6 +802,7 @@ class ConfigurationClassParser {
 
 		public void register(DeferredImportSelectorHolder deferredImport) {
 			Class<? extends Group> group = deferredImport.getImportSelector().getImportGroup();
+			// 获取对应的组信息如果没有就创建默认的组，有的话就使用自己的组
 			DeferredImportSelectorGrouping grouping = this.groupings.computeIfAbsent(
 					(group != null ? group : deferredImport),
 					key -> new DeferredImportSelectorGrouping(createGroup(group)));
@@ -811,9 +814,11 @@ class ConfigurationClassParser {
 		public void processGroupImports() {
 			for (DeferredImportSelectorGrouping grouping : this.groupings.values()) {
 				Predicate<String> exclusionFilter = grouping.getCandidateFilter();
+				// 获取一个组下需要导入并注册成beanDefinition的对象
 				grouping.getImports().forEach(entry -> {
 					ConfigurationClass configurationClass = this.configurationClasses.get(entry.getMetadata());
 					try {
+						// 处理导入的bean对象
 						processImports(configurationClass, asSourceClass(configurationClass, exclusionFilter),
 								Collections.singleton(asSourceClass(entry.getImportClassName(), exclusionFilter)),
 								exclusionFilter, false);
