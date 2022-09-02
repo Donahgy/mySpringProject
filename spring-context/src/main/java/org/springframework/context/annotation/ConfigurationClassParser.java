@@ -776,6 +776,7 @@ class ConfigurationClassParser {
 
 		public void process() {
 			List<DeferredImportSelectorHolder> deferredImports = this.deferredImportSelectors;
+
 			this.deferredImportSelectors = null;
 			try {
 				if (deferredImports != null) {
