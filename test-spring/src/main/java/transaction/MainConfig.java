@@ -1,8 +1,6 @@
 package transaction;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.sun.org.apache.bcel.internal.generic.DADD;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
